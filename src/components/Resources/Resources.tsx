@@ -12,6 +12,10 @@ import { useState } from "react";
 export const Resources = ({ resources }: { resources: IResource[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState<SortOption>("category");
+  const [selectedResource, setSelectedResource] = useState<IResource | null>(
+    null,
+  );
+
   if (!resources.length) {
     return <div>No resources available.</div>;
   }
@@ -58,7 +62,16 @@ export const Resources = ({ resources }: { resources: IResource[] }) => {
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-6">
               {resources.map((resource) => (
-                <ResourceCard key={resource.id} resource={resource} />
+                <ResourceCard
+                  key={resource.id}
+                  onViewDetails={() =>
+                    setSelectedResource((current) =>
+                      current?.id === resource.id ? null : resource,
+                    )
+                  }
+                  resource={resource}
+                  selectedResource={selectedResource}
+                />
               ))}
             </div>
           </section>

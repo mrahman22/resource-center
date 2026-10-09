@@ -115,4 +115,24 @@ describe("Resources", () => {
 
     expect(screen.getByText(/2025-07-10/i)).toBeInTheDocument();
   });
+
+  it("hides resource details when the same resource is selected again", () => {
+    render(<Resources resources={resources} />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /view mindful moments/i }),
+    );
+
+    expect(
+      screen.getByText(/a calming mindfulness podcast/i),
+    ).toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /hide mindful moments/i }),
+    );
+
+    expect(
+      screen.queryByText(/a calming mindfulness podcast/i),
+    ).not.toBeInTheDocument();
+  });
 });

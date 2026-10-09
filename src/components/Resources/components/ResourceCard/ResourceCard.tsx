@@ -1,6 +1,16 @@
 import type { IResource } from "../../../../interfaces/resource";
 
-export const ResourceCard = ({ resource }: { resource: IResource }) => {
+export const ResourceCard = ({
+  onViewDetails,
+  resource,
+  selectedResource,
+}: {
+  onViewDetails: () => void;
+  resource: IResource;
+  selectedResource: IResource | null;
+}) => {
+  const isSelected = selectedResource?.id === resource.id;
+
   return (
     <article className="h-full w-2/3 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       <img
@@ -29,11 +39,22 @@ export const ResourceCard = ({ resource }: { resource: IResource }) => {
       </div>
       <button
         type="button"
-        aria-label={`View ${resource.title}`}
+        aria-expanded={isSelected}
+        aria-label={`${isSelected ? "Hide" : "View"} ${resource.title}`}
         className="m-5 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        onClick={onViewDetails}
       >
-        View details
+        {isSelected ? "Hide details" : "View details"}
       </button>
+      {isSelected && (
+        <div className="m-4 bg-green-300 p-3 rounded-2xl">
+          <h4 className="text-lg font-semibold text-gray-900">
+            {resource.title}
+          </h4>
+          <p className="mt-2 text-sm text-gray-500">{resource.description}</p>
+          <p className="mt-2 text-sm text-gray-500">{resource.date_uploaded}</p>
+        </div>
+      )}
     </article>
   );
 };
