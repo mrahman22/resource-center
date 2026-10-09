@@ -24,7 +24,7 @@ export const Resources = ({ resources }: { resources: IResource[] }) => {
   const transformedResources = Object.entries(groupedResources);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 pb-4">
       <div className="flex items-center space-x-4 mb-5">
         <input
           type="text"
