@@ -36,4 +36,30 @@ describe("ResourceCard", () => {
 
     expect(screen.getByText(/25 min/i)).toBeInTheDocument();
   });
+  it("renders a maximum of three tags", () => {
+    const resource = {
+      id: "002",
+      category: "Articles",
+      title: "The Science of Sleep",
+      thumbnail: "https://example.com/sleep.jpg",
+      tags: ["wellbeing", "sleep", "science", "health"],
+      duration: 8,
+      description: "An article about sleep.",
+      date_uploaded: "2025-06-22",
+    };
+
+    render(
+      <ResourceCard
+        resource={resource}
+        selectedResource={null}
+        onViewDetails={() => {}}
+      />,
+    );
+
+    expect(screen.getByText("wellbeing")).toBeInTheDocument();
+    expect(screen.getByText("sleep")).toBeInTheDocument();
+    expect(screen.getByText("science")).toBeInTheDocument();
+
+    expect(screen.queryByText("health")).not.toBeInTheDocument();
+  });
 });

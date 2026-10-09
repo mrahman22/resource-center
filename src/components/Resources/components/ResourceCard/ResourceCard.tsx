@@ -1,5 +1,7 @@
 import type { IResource } from "../../../../interfaces/resource";
 
+const MAX_TAGS_DISPLAYED = 3;
+
 export const ResourceCard = ({
   onViewDetails,
   resource,
@@ -25,7 +27,7 @@ export const ResourceCard = ({
         </h3>
 
         <div className="mt-3 flex flex-wrap gap-2">
-          {resource.tags.map((tag) => (
+          {resource.tags.slice(0, MAX_TAGS_DISPLAYED).map((tag) => (
             <span
               key={tag}
               className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
