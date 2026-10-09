@@ -3,9 +3,17 @@ import type { IResource } from "../../../interfaces/resource";
 export const filterResources = (resources: IResource[], searchTerm: string) => {
   const normalizedSearchTerm = searchTerm.trim().toLowerCase();
 
-  return resources.filter((resource) =>
-    resource.title.toLowerCase().includes(normalizedSearchTerm),
-  );
+  return resources.filter((resource) => {
+    const matchesTitle = resource.title
+      .toLowerCase()
+      .includes(normalizedSearchTerm);
+
+    const matchesTag = resource.tags.some((tag) =>
+      tag.toLowerCase().includes(normalizedSearchTerm),
+    );
+
+    return matchesTitle || matchesTag;
+  });
 };
 
 export const groupResourcesByCategory = (resources: IResource[]) => {
