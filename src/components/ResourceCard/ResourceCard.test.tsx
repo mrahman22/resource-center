@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { ResourceCard } from "./ResourceCard";
 
 describe("ResourceCard", () => {
   it("renders the resource title, thumbnail, tags and duration", () => {
