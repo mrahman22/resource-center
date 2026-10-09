@@ -1,75 +1,80 @@
-# React + TypeScript + Vite
+# Resource Centre
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A single-page React application for browsing wellbeing resources across categories including podcasts, articles, newsletters, recipes, fitness and meditation.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Display resources grouped by category
+- Search resources by title or tag
+- Sort resources by category or upload date
+- View additional details for a resource
+- Responsive card-based layout
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Vitest
+- React Testing Library
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Install dependencies:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Start the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+Run the tests:
+
+```bash
+npm test
+```
+
+Build the application:
+
+```bash
+npm run build
+```
+
+## Approach
+
+I broke the requirements into small pieces of functionality and implemented them incrementally, using a Red, Green, Refactor approach where appropriate.
+
+Filtering, sorting and grouping are derived from the resource data rather than stored as additional state:
+
+```text
+resources → filter → sort → group → render
+```
+
+Resource-specific components and helper functions are kept together, while the supplied mock data remains separate from the UI.
+
+## Testing
+
+Tests focus on user-facing behaviour including rendering, grouping, filtering, sorting and displaying resource details.
+
+Pure data transformation logic, such as sorting, is also tested independently.
+
+## If I Had More Time
+
+I would extend the application to allow users with the appropriate permissions to:
+
+- Add resources
+- Edit resources
+- Delete resources
+
+This would introduce form validation, confirmation states, API persistence and error handling.
+
+I would also consider replacing the mock data with an API, adding loading/error states, and expanding accessibility and edge-case test coverage.
+
+## Design Decisions
+
+I kept the solution intentionally simple for the size of the task. React state is used for UI state, while values that can be calculated from existing data are derived during rendering rather than stored separately.
