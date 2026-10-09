@@ -1,26 +1,14 @@
 import type { IResource } from "../../interfaces/resource";
 
 import { ResourceCard } from "./components/ResourceCard";
+import { groupResourcesByCategory } from "./helpers/resources";
 
 export const Resources = ({ resources }: { resources: IResource[] }) => {
   if (!resources.length) {
     return <div>No resources available.</div>;
   }
 
-  const groupedResources = resources.reduce<Record<string, IResource[]>>(
-    (groups, resource) => {
-      const category = resource.category;
-
-      if (!groups[category]) {
-        groups[category] = [];
-      }
-
-      groups[category].push(resource);
-
-      return groups;
-    },
-    {},
-  );
+  const groupedResources = groupResourcesByCategory(resources);
 
   const transformedResources = Object.entries(groupedResources);
 
