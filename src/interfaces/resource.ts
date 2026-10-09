@@ -1,4 +1,4 @@
-export interface IResourceCard {
+export interface IResource {
   id: string;
   category: string;
   title: string;

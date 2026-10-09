@@ -1,0 +1,46 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import type { IResource } from "../../interfaces/resource";
+import { Resources } from "./Resources";
+
+describe("Resources", () => {
+  it("renders the supplied resources", () => {
+    const resources: IResource[] = [
+      {
+        id: "001",
+        category: "Podcasts",
+        title: "Mindful Moments",
+        thumbnail: "https://example.com/mindful-moments.jpg",
+        tags: ["wellbeing", "mindfulness", "relaxation"],
+        duration: 25,
+        description: "A calming mindfulness podcast.",
+        date_uploaded: "2025-07-10",
+      },
+      {
+        id: "002",
+        category: "Articles",
+        title: "The Science of Sleep",
+        thumbnail: "https://example.com/sleep.jpg",
+        tags: ["wellbeing", "sleep", "science"],
+        duration: 8,
+        description: "An article about sleep.",
+        date_uploaded: "2025-06-22",
+      },
+    ];
+
+    render(<Resources resources={resources} />);
+
+    expect(
+      screen.getByRole("heading", { name: /mindful moments/i }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("heading", { name: /the science of sleep/i }),
+    ).toBeInTheDocument();
+  });
+  it("displays a message when there are no resources", () => {
+    render(<Resources resources={[]} />);
+
+    expect(screen.getByText(/no resources available/i)).toBeInTheDocument();
+  });
+});
