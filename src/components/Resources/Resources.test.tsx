@@ -79,4 +79,25 @@ describe("Resources", () => {
       screen.queryByRole("heading", { name: /the science of sleep/i }),
     ).not.toBeInTheDocument();
   });
+  it("filters resources by tag", () => {
+    render(<Resources resources={resources} />);
+
+    const searchInput = screen.getByRole("searchbox");
+
+    fireEvent.change(searchInput, {
+      target: { value: "wellbeing" },
+    });
+
+    expect(
+      screen.getByRole("heading", { name: /mindful moments/i }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("heading", { name: /the science of sleep/i }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByRole("heading", { name: /energy boost smoothie/i }),
+    ).not.toBeInTheDocument();
+  });
 });
