@@ -100,4 +100,19 @@ describe("Resources", () => {
       screen.queryByRole("heading", { name: /energy boost smoothie/i }),
     ).not.toBeInTheDocument();
   });
+  it("displays resource details when a resource is selected", () => {
+    render(<Resources resources={resources} />);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /view mindful moments/i,
+      }),
+    );
+
+    expect(
+      screen.getByText(/a calming mindfulness podcast/i),
+    ).toBeInTheDocument();
+
+    expect(screen.getByText(/2025-07-10/i)).toBeInTheDocument();
+  });
 });

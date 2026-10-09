@@ -27,6 +27,13 @@ export const ResourceCard = ({ resource }: { resource: IResource }) => {
 
         <p className="mt-4 text-sm text-gray-500">{resource.duration} min</p>
       </div>
+      <button
+        type="button"
+        aria-label={`View ${resource.title}`}
+        className="m-5 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      >
+        View details
+      </button>
     </article>
   );
 };
