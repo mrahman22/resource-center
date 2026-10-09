@@ -1,31 +1,49 @@
 import type { IResource } from "../../interfaces/resource";
 
 import { ResourceCard } from "./components/ResourceCard";
-import { groupResourcesByCategory, filterResources } from "./helpers/resources";
+import {
+  groupResourcesByCategory,
+  filterResources,
+  sortResources,
+  type SortOption,
+} from "./helpers/resources";
 import { useState } from "react";
 
 export const Resources = ({ resources }: { resources: IResource[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("category");
   if (!resources.length) {
     return <div>No resources available.</div>;
   }
 
   const filteredResources = filterResources(resources, searchTerm);
+  const sortedResources = sortResources(filteredResources, sortOption);
 
-  const groupedResources = groupResourcesByCategory(filteredResources);
+  const groupedResources = groupResourcesByCategory(sortedResources);
 
   const transformedResources = Object.entries(groupedResources);
 
   return (
     <div className="space-y-10">
-      <input
-        type="text"
-        role="searchbox"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search resources..."
-        className="mb-5 p-2 border border-gray-300 rounded"
-      />
+      <div className="flex items-center space-x-4 mb-5">
+        <input
+          type="text"
+          role="searchbox"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search resources..."
+          className="p-2 border border-gray-300 rounded"
+        />
+        <select
+          value={sortOption}
+          onChange={(event) => setSortOption(event.target.value as SortOption)}
+          className="rounded border border-gray-300 p-2"
+        >
+          <option value="category">Category</option>
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
       {transformedResources.map(([category, resources]) => {
         const headingId = `${category.toLowerCase()}-heading`;
 

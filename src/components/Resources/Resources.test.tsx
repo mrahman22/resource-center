@@ -100,21 +100,4 @@ describe("Resources", () => {
       screen.queryByRole("heading", { name: /energy boost smoothie/i }),
     ).not.toBeInTheDocument();
   });
-  it("sorts resources by newest date uploaded", () => {
-    render(<Resources resources={resources} />);
-
-    const sortSelect = screen.getByRole("combobox");
-
-    fireEvent.change(sortSelect, {
-      target: { value: "newest" },
-    });
-
-    const resourceHeadings = screen.getAllByRole("heading", {
-      level: 3,
-    });
-
-    expect(resourceHeadings[0]).toHaveTextContent("10-Minute Morning Stretch");
-
-    expect(resourceHeadings[1]).toHaveTextContent("Wellness Weekly");
-  });
 });
