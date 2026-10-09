@@ -1,5 +1,5 @@
 import type { IResource } from "../../interfaces/resource";
-
+import { ResourcesInput } from "./components/ResourcesInput";
 import { ResourceCard } from "./components/ResourceCard";
 import {
   groupResourcesByCategory,
@@ -8,6 +8,8 @@ import {
   type SortOption,
 } from "./helpers/resources";
 import { useState } from "react";
+import { SortingResources } from "./components/SortingResources";
+import { StatusMessage } from "./components/StatusMessage";
 
 export const Resources = ({ resources }: { resources: IResource[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,7 +19,7 @@ export const Resources = ({ resources }: { resources: IResource[] }) => {
   );
 
   if (!resources.length) {
-    return <div>No resources available.</div>;
+    return <StatusMessage message="No resources available." />;
   }
 
   const filteredResources = filterResources(resources, searchTerm);
@@ -30,53 +32,48 @@ export const Resources = ({ resources }: { resources: IResource[] }) => {
   return (
     <div className="space-y-10 pb-4">
       <div className="flex items-center space-x-4 mb-5">
-        <input
-          type="text"
-          role="searchbox"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search resources..."
-          className="p-2 border border-gray-300 rounded"
+        <ResourcesInput
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
         />
-        <select
-          value={sortOption}
-          onChange={(event) => setSortOption(event.target.value as SortOption)}
-          className="rounded border border-gray-300 p-2"
-        >
-          <option value="category">Category</option>
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-        </select>
+        <SortingResources
+          sortOption={sortOption}
+          onSortChange={setSortOption}
+        />
       </div>
-      {transformedResources.map(([category, resources]) => {
-        const headingId = `${category.toLowerCase()}-heading`;
+      {!transformedResources.length ? (
+        <StatusMessage message="No matching resources." />
+      ) : (
+        transformedResources.map(([category, resources]) => {
+          const headingId = `${category.toLowerCase()}-heading`;
 
-        return (
-          <section key={category} aria-labelledby={headingId} className="">
-            <h2
-              id={headingId}
-              className="mb-5 text-2xl font-semibold text-gray-900"
-            >
-              {category}
-            </h2>
+          return (
+            <section key={category} aria-labelledby={headingId}>
+              <h2
+                id={headingId}
+                className="mb-5 text-2xl font-semibold text-gray-900"
+              >
+                {category}
+              </h2>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-6">
-              {resources.map((resource) => (
-                <ResourceCard
-                  key={resource.id}
-                  onViewDetails={() =>
-                    setSelectedResource((current) =>
-                      current?.id === resource.id ? null : resource,
-                    )
-                  }
-                  resource={resource}
-                  selectedResource={selectedResource}
-                />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-6">
+                {resources.map((resource) => (
+                  <ResourceCard
+                    key={resource.id}
+                    onViewDetails={() =>
+                      setSelectedResource((current) =>
+                        current?.id === resource.id ? null : resource,
+                      )
+                    }
+                    resource={resource}
+                    selectedResource={selectedResource}
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })
+      )}
     </div>
   );
 };

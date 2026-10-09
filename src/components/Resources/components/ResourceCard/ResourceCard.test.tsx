@@ -16,7 +16,13 @@ describe("ResourceCard", () => {
       date_uploaded: "2025-07-10",
     };
 
-    render(<ResourceCard resource={resource} />);
+    render(
+      <ResourceCard
+        resource={resource}
+        selectedResource={null}
+        onViewDetails={() => {}}
+      />,
+    );
 
     expect(
       screen.getByRole("heading", { name: /mindful moments/i }),

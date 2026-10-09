@@ -116,6 +116,20 @@ describe("Resources", () => {
     expect(screen.getByText(/2025-07-10/i)).toBeInTheDocument();
   });
 
+  it("shows a message when no resources match the search term", () => {
+    render(<Resources resources={resources} />);
+
+    fireEvent.change(screen.getByRole("searchbox"), {
+      target: { value: "banana spaceship" },
+    });
+
+    expect(screen.getByText(/no matching resources/i)).toBeInTheDocument();
+
+    expect(
+      screen.queryByRole("heading", { name: /mindful moments/i }),
+    ).not.toBeInTheDocument();
+  });
+
   it("hides resource details when the same resource is selected again", () => {
     render(<Resources resources={resources} />);
 
