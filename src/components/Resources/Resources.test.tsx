@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, fireEvent } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import type { IResource } from "../../interfaces/resource";
 import { Resources } from "./Resources";
@@ -61,5 +61,22 @@ describe("Resources", () => {
     expect(
       within(articlesGroup).getByText(/the science of sleep/i),
     ).toBeInTheDocument();
+  });
+  it("filters resources by title", () => {
+    render(<Resources resources={resources} />);
+
+    const searchInput = screen.getByRole("searchbox");
+
+    fireEvent.change(searchInput, {
+      target: { value: "Mindful Moments" },
+    });
+
+    expect(
+      screen.getByRole("heading", { name: /mindful moments/i }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByRole("heading", { name: /the science of sleep/i }),
+    ).not.toBeInTheDocument();
   });
 });
