@@ -1,6 +1,6 @@
 export const Header = () => {
   return (
-    <div className="py-8">
+    <header className="py-8">
       <h1 className="text-4xl font-bold text-center">RESOURCE CENTRE</h1>
 
       <div className="w-fit mt-4 px-8 py-4">
@@ -11,6 +11,6 @@ export const Header = () => {
           meditation resources.
         </p>
       </div>
-    </div>
+    </header>
   );
 };
