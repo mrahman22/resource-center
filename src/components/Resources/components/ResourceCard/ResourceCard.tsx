@@ -2,7 +2,7 @@ import type { IResource } from "../../../../interfaces/resource";
 
 export const ResourceCard = ({ resource }: { resource: IResource }) => {
   return (
-    <article className="h-full w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+    <article className="h-full w-2/3 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       <img
         src={resource.thumbnail}
         alt={resource.title}
