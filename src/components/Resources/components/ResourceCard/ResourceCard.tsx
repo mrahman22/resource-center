@@ -10,9 +10,9 @@ export const ResourceCard = ({ resource }: { resource: IResource }) => {
       />
 
       <div className="p-5">
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h3 className="text-xl font-semibold text-gray-900">
           {resource.title}
-        </h2>
+        </h3>
 
         <div className="mt-3 flex flex-wrap gap-2">
           {resource.tags.map((tag) => (
